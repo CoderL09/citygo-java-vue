@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.citygo.catalog.mapper.CategoryMapper">
+
+    <insert id="insert" parameterType="com.citygo.catalog.entity.Category" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO categories (category_type, name, sort_order, status, created_at, updated_at)
+        VALUES (#{categoryType}, #{name}, #{sortOrder}, #{status}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="findById" resultType="com.citygo.catalog.entity.Category">
+        SELECT id, category_type, name, sort_order, status, created_at, updated_at
+        FROM categories WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE categories SET name = #{name}, sort_order = #{sortOrder}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE categories SET status = #{status}, updated_at = #{updatedAt} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM categories WHERE id = #{id}
+    </delete>
+
+    <sql id="pageFilter">
+        WHERE 1 = 1
+        <if test="categoryType != null and categoryType != ''">
+            AND category_type = #{categoryType}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </sql>
+
+    <select id="page" resultType="com.citygo.catalog.entity.Category">
+        SELECT id, category_type, name, sort_order, status, created_at, updated_at
+        FROM categories
+        <include refid="pageFilter"/>
+        ORDER BY sort_order ASC, id DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM categories
+        <include refid="pageFilter"/>
+    </select>
+
+    <select id="countActivities" resultType="long">
+        SELECT (SELECT COUNT(*) FROM activities WHERE category_id = #{categoryId}) + (SELECT COUNT(*) FROM packages WHERE category_id = #{categoryId})
+    </select>
+
+</mapper>

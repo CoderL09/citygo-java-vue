@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.citygo.catalog.mapper.ActivityMapper">
+
+    <insert id="insert" parameterType="com.citygo.catalog.entity.Activity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO activities (category_id, name, description, address, status, created_by, created_at, updated_at)
+        VALUES (#{categoryId}, #{name}, #{description}, #{address}, #{status}, #{createdBy}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="findById" resultType="com.citygo.catalog.entity.Activity">
+        SELECT a.id, a.category_id, a.name, a.description, a.address, a.status, a.created_by,
+               a.created_at, a.updated_at, c.name AS category_name
+        FROM activities a
+        LEFT JOIN categories c ON c.id = a.category_id
+        WHERE a.id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE activities
+        SET category_id = #{categoryId}, name = #{name}, description = #{description},
+            address = #{address}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE activities SET status = #{status}, updated_at = #{updatedAt} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM activities WHERE id = #{id}
+    </delete>
+
+    <sql id="pageFilter">
+        WHERE 1 = 1
+        <if test="categoryId != null">
+            AND a.category_id = #{categoryId}
+        </if>
+        <if test="status != null and status != ''">
+            AND a.status = #{status}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (a.name LIKE CONCAT('%', #{keyword}, '%') OR a.address LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+    </sql>
+
+    <select id="page" resultType="com.citygo.catalog.entity.Activity">
+        SELECT a.id, a.category_id, a.name, a.description, a.address, a.status, a.created_by,
+               a.created_at, a.updated_at, c.name AS category_name
+        FROM activities a
+        LEFT JOIN categories c ON c.id = a.category_id
+        <include refid="pageFilter"/>
+        ORDER BY a.id DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM activities a
+        <include refid="pageFilter"/>
+    </select>
+
+</mapper>

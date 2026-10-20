@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 430" fill="none">
+ <circle cx="478" cy="93" r="43" fill="#E9B566"/>
+ <path d="M32 339C132 254 227 301 317 257C420 208 524 279 620 234V430H0V365L32 339Z" fill="#8BB09B"/>
+ <path d="M31 353H609" stroke="#D8E8D8" stroke-width="2"/>
+ <path d="M68 326V167H177V326" fill="#DDE8D9"/>
+ <path d="M59 167L122 115L187 167H59Z" fill="#44765C"/>
+ <path d="M91 190H111V222H91V190ZM135 190H155V222H135V190Z" fill="#6B9680"/>
+ <path d="M106 326V260C106 235 141 235 141 260V326" fill="#497A61"/>
+ <path d="M199 326V125H288V326" fill="#B6CEB6"/>
+ <path d="M214 146H232V172H214V146ZM254 146H272V172H254V146ZM214 194H232V220H214V194ZM254 194H272V220H254V194ZM214 243H232V269H214V243ZM254 243H272V269H254V243Z" fill="#47755C"/>
+ <path d="M188 125H297V112H188V125Z" fill="#E8EBDD"/>
+ <path d="M312 326V206H454V326" fill="#F0E4C9"/>
+ <path d="M302 205L328 166H439L464 205H302Z" fill="#D97F57"/>
+ <path d="M331 221H435V237H331V221Z" fill="#D9AA7F"/>
+ <path d="M333 324V267C333 238 365 238 365 267V324M401 324V267C401 238 433 238 433 267V324" fill="#60856B"/>
+ <path d="M374 326V252H394V326" fill="#B5C7A7"/>
+ <path d="M489 326V153H568V326" fill="#C7D8BD"/>
+ <path d="M501 130H557V153H501V130Z" fill="#E6E9D8"/>
+ <path d="M512 112H546V130H512V112Z" fill="#668D70"/>
+ <path d="M527 72V112" stroke="#E2EBD8" stroke-width="3"/>
+ <path d="M510 177H524V199H510V177ZM538 177H552V199H538V177ZM510 219H524V241H510V219ZM538 219H552V241H538V219ZM510 261H524V283H510V261ZM538 261H552V283H538V261Z" fill="#5A8269"/>
+ <path d="M55 333V261M473 334V266M589 334V237" stroke="#446F50" stroke-width="5"/>
+ <ellipse cx="55" cy="247" rx="26" ry="44" fill="#406E4F"/>
+ <ellipse cx="473" cy="256" rx="20" ry="35" fill="#5F8867"/>
+ <ellipse cx="589" cy="222" rx="26" ry="48" fill="#477953"/>
+ <path d="M203 430C248 384 324 371 470 353H586C410 386 340 407 327 430H203Z" fill="#D9DFBF"/>
+ <path d="M10 366H228M427 340H630" stroke="#D6E2C7" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 9"/>
+ <path d="M329 352V324M329 341L320 334M329 339L337 331" stroke="#335F49" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="329" cy="312" r="8" fill="#E7B78D"/>
+ <path d="M319 327C319 315 339 315 339 327V341H319V327Z" fill="#EB915F"/>
+ <path d="M322 352L318 364M335 352L340 364" stroke="#335F49" stroke-width="3" stroke-linecap="round"/>
+ <path d="M17 95H96M39 86H73M337 65H394M351 57H374" stroke="#D8E6D6" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>
+</svg>

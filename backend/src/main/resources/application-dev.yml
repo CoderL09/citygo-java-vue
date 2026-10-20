@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${CITYGO_DB_URL:jdbc:mysql://127.0.0.1:3306/citygo_dev?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${CITYGO_DB_USER:citygo}
+    password: ${CITYGO_DB_PASSWORD:}
+  data:
+    redis:
+      host: ${CITYGO_REDIS_HOST:127.0.0.1}
+      port: ${CITYGO_REDIS_PORT:6379}
+      password: ${CITYGO_REDIS_PASSWORD:}
+
+logging:
+  level:
+    com.citygo: info

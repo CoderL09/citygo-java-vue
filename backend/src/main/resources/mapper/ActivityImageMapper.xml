@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.citygo.catalog.mapper.ActivityImageMapper">
+
+    <insert id="insert" parameterType="com.citygo.catalog.entity.ActivityImage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO activity_images (activity_id, file_object_id, sort_order, created_at)
+        VALUES (#{activityId}, #{fileObjectId}, #{sortOrder}, #{createdAt})
+    </insert>
+
+    <select id="findById" resultType="com.citygo.catalog.entity.ActivityImage">
+        SELECT id, activity_id, file_object_id, sort_order, created_at
+        FROM activity_images WHERE id = #{id}
+    </select>
+
+    <select id="findByActivityId" resultType="com.citygo.catalog.entity.ActivityImage">
+        SELECT ai.id, ai.activity_id, ai.file_object_id, ai.sort_order, ai.created_at,
+               fo.storage_key, fo.original_name
+        FROM activity_images ai
+        JOIN file_objects fo ON fo.id = ai.file_object_id
+        WHERE ai.activity_id = #{activityId}
+        ORDER BY ai.sort_order ASC, ai.id ASC
+    </select>
+
+    <update id="updateSort">
+        UPDATE activity_images SET sort_order = #{sortOrder} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM activity_images WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByActivityId">
+        DELETE FROM activity_images WHERE activity_id = #{activityId}
+    </delete>
+
+</mapper>

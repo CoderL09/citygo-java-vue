@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.citygo.file.mapper.FileObjectMapper">
+
+    <insert id="insert" parameterType="com.citygo.file.entity.FileObject" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO file_objects (unreferenced_at, owner_id, owner_type, storage_key, original_name, content_type, size_bytes, status, created_at)
+        VALUES (#{createdAt}, #{ownerId}, #{ownerType}, #{storageKey}, #{originalName}, #{contentType}, #{sizeBytes}, #{status}, #{createdAt})
+    </insert>
+
+    <select id="findById" resultType="com.citygo.file.entity.FileObject">
+        SELECT id, owner_id, owner_type, storage_key, original_name, content_type, size_bytes, status, created_at
+        FROM file_objects WHERE id = #{id}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE file_objects SET status = #{status}, unreferenced_at = CASE WHEN #{status}='USED' THEN NULL ELSE UTC_TIMESTAMP(3) END WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM file_objects WHERE id = #{id}
+    </delete>
+
+    <select id="countImageRefs" resultType="long">
+        SELECT COUNT(*) FROM activity_images WHERE file_object_id = #{fileObjectId}
+    </select>
+
+</mapper>

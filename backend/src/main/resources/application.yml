@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: citygo-backend
+  profiles:
+    default: dev
+  data:
+    redis:
+      timeout: 1s
+      connect-timeout: 1s
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+  jackson:
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+
+server:
+  port: ${CITYGO_SERVER_PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    # Checkout preloads lock IDs, then rereads under locks; never reuse pre-lock session cache values.
+    local-cache-scope: STATEMENT
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+citygo:
+  redis:
+    namespace: ${CITYGO_REDIS_NAMESPACE:citygo:${spring.profiles.active:dev}}
+  jwt:
+    secret: ${CITYGO_JWT_SECRET:}
+    ttl-seconds: 1800
+  payment:
+    mock-enabled: ${CITYGO_PAYMENT_MOCK_ENABLED:true}
+    order-pay-ttl-seconds: 900
+  storage:
+    type: ${CITYGO_STORAGE_TYPE:local}
+    local:
+      base-dir: ${CITYGO_STORAGE_LOCAL_DIR:}
+    s3:
+      endpoint: ${CITYGO_STORAGE_S3_ENDPOINT:}
+      access-key: ${CITYGO_STORAGE_S3_ACCESS_KEY:}
+      secret-key: ${CITYGO_STORAGE_S3_SECRET_KEY:}
+      bucket: ${CITYGO_STORAGE_S3_BUCKET:citygo}
+  cache:
+    ttl-seconds: 300
+  urge:
+    min-interval-seconds: 60
+    daily-limit: 5

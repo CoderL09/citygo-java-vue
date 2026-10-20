@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${CITYGO_TEST_DB_URL:jdbc:mysql://127.0.0.1:3306/citygo_test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${CITYGO_DB_USER:citygo}
+    password: ${CITYGO_DB_PASSWORD:}
+  data:
+    redis:
+      host: ${CITYGO_REDIS_HOST:127.0.0.1}
+      port: ${CITYGO_REDIS_PORT:6379}
+      password: ${CITYGO_REDIS_PASSWORD:}
+
+citygo:
+  redis:
+    namespace: citygo:test
+  jobs:
+    enabled: false
+  jwt:
+    # 仅测试 profile 使用的固定密钥（生产/开发密钥在 .env，勿提交）
+    secret: citygo-test-secret-0123456789abcdef0123456789abcdef
+    ttl-seconds: 1800
+  storage:
+    type: local
+    local:
+      base-dir: ${java.io.tmpdir}/citygo-test-uploads

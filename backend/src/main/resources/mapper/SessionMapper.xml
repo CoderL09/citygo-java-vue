@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.citygo.catalog.mapper.SessionMapper">
+
+    <insert id="insert" parameterType="com.citygo.catalog.entity.Session" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sessions (activity_id, start_time, end_time, booking_deadline, price_cents,
+                              capacity, available, status, created_at, updated_at)
+        VALUES (#{activityId}, #{startTime}, #{endTime}, #{bookingDeadline}, #{priceCents},
+                #{capacity}, #{available}, #{status}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="findById" resultType="com.citygo.catalog.entity.Session">
+        SELECT id, activity_id, start_time, end_time, booking_deadline, price_cents,
+               capacity, available, status, created_at, updated_at
+        FROM sessions WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE sessions
+        SET start_time = #{startTime}, end_time = #{endTime}, booking_deadline = #{bookingDeadline},
+            price_cents = #{priceCents}, capacity = #{capacity}, available = #{available}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE sessions SET status = #{status}, updated_at = #{updatedAt} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM sessions WHERE id = #{id}
+    </delete>
+
+    <select id="findByActivityId" resultType="com.citygo.catalog.entity.Session">
+        SELECT id, activity_id, start_time, end_time, booking_deadline, price_cents,
+               capacity, available, status, created_at, updated_at
+        FROM sessions
+        WHERE activity_id = #{activityId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY start_time ASC
+    </select>
+
+    <select id="countValidOrderRefs" resultType="long">
+        SELECT COUNT(*) FROM orders o
+        WHERE o.status IN ('PENDING_PAYMENT','PENDING_CONFIRMATION','CONFIRMED','COMPLETED','REFUNDING')
+          AND (EXISTS (SELECT 1 FROM order_items oi WHERE oi.order_id=o.id AND oi.session_id=#{sessionId})
+            OR EXISTS (SELECT 1 FROM order_allocations oa WHERE oa.order_id=o.id AND oa.session_id=#{sessionId}))
+    </select>
+
+</mapper>

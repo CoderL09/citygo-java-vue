@@ -1,0 +1,30 @@
+# Conf files are included in nginx http context. Do not log query strings: WebSocket URLs contain single-use tickets.
+log_format citygo_safe '$remote_addr $request_method $uri $status $body_bytes_sent';
+server {
+ listen 80;
+ server_name localhost;
+ root /usr/share/nginx/html;
+ index index.html;
+ client_max_body_size 6m;
+ access_log /var/log/nginx/access.log citygo_safe;
+ add_header X-Content-Type-Options nosniff always;
+ location /api/ {
+  proxy_pass http://${CITYGO_NGINX_BACKEND};
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_read_timeout 30s;
+ }
+ location = /ws {
+  proxy_pass http://${CITYGO_NGINX_BACKEND};
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+  proxy_set_header Host $host;
+  proxy_set_header Origin $http_origin;
+  proxy_read_timeout 75s;
+ }
+ location /assets/ { try_files $uri =404; }
+ location / { try_files $uri $uri/ /index.html; }
+}
